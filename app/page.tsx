@@ -48,60 +48,57 @@ export default function HomePage() {
       <div
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.0) 45%)'
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 45%)'
         }}
       />
-      <div className="absolute inset-0 mix-blend-multiply" style={{ background: 'linear-gradient(to bottom, rgba(32,56,92,0.08), rgba(0,0,0,0))' }} />
-      <div className="absolute inset-0 mix-blend-soft-light" style={{ background: 'linear-gradient(to top, rgba(255,188,126,0.05), rgba(0,0,0,0) 50%)' }} />
 
-      <section
-        className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col items-center px-4 text-center sm:min-h-screen sm:px-6"
-        style={{ paddingTop: '20vh' }}
-      >
-        <Image
-          src="/logo.png"
-          alt="MEVO"
-          width={560}
-          height={190}
-          priority
-          className="h-auto w-[clamp(236px,68vw,560px)]"
-          style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.08))' }}
-        />
+      <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-4 text-center sm:px-6">
+        <div className="flex flex-col items-center" style={{ paddingTop: '18vh' }}>
+          <Image
+            src="/logo.png"
+            alt="MEVO"
+            width={520}
+            height={176}
+            priority
+            className="h-auto w-[clamp(220px,62vw,520px)]"
+            style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.08))' }}
+          />
 
-        <h1
-          className="mt-6 max-w-[340px] text-white sm:max-w-[920px]"
-          style={{
-            fontWeight: 300,
-            letterSpacing: '-0.02em',
-            fontSize: 'clamp(40px, 6vw, 56px)',
-            lineHeight: 1.05
-          }}
-        >
-          <span className="block">Your friends, your content</span>
-        </h1>
+          <h1
+            className="mt-8 max-w-[320px] text-white sm:max-w-[840px]"
+            style={{
+              fontWeight: 300,
+              letterSpacing: '-0.02em',
+              fontSize: 'clamp(35px, 5.2vw, 56px)',
+              lineHeight: 1.05
+            }}
+          >
+            Your friends, your content
+          </h1>
 
-        <form onSubmit={onSubmit} className="mt-8 w-full max-w-[504px]">
-          <div className="flex flex-col gap-2.5 rounded-[30px] border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.08)] p-2 backdrop-blur-[12px] shadow-[0_8px_18px_rgba(0,0,0,0.10)] sm:flex-row sm:items-center sm:gap-2">
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email address"
-              className="h-10 flex-1 rounded-[24px] bg-[#111] px-4 text-[15px] text-white outline-none placeholder:text-white/60 sm:h-11"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="h-10 rounded-[24px] bg-white px-6 text-sm font-medium text-black transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_6px_14px_rgba(0,0,0,0.14)] disabled:translate-y-0 disabled:opacity-70 sm:h-11"
-            >
-              Join
-            </button>
-          </div>
-          <p className="mt-2 min-h-5 text-xs text-white/80" aria-live="polite">
-            {status === 'ok' ? 'You’re on the list.' : status === 'error' ? 'Try again.' : ''}
-          </p>
-        </form>
+          <form onSubmit={onSubmit} className="mt-8 w-full max-w-[470px]">
+            <div className="flex flex-col gap-2 rounded-[28px] border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.07)] p-2 backdrop-blur-[12px] shadow-[0_6px_14px_rgba(0,0,0,0.08)] sm:flex-row sm:items-center">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
+                className="h-[42px] flex-1 rounded-[22px] bg-[#111] px-4 text-[15px] text-white outline-none placeholder:text-white/60"
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="h-[42px] self-end rounded-[22px] bg-white px-5 text-sm font-medium text-black transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_5px_12px_rgba(0,0,0,0.12)] disabled:translate-y-0 disabled:opacity-70 sm:self-auto"
+              >
+                Join →
+              </button>
+            </div>
+            <p className="mt-2 min-h-5 text-xs text-white/80" aria-live="polite">
+              {status === 'ok' ? 'You’re on the list.' : status === 'error' ? 'Try again.' : ''}
+            </p>
+          </form>
+        </div>
       </section>
     </main>
   );
