@@ -30,15 +30,13 @@ export default function HomePage() {
       style={{
         backgroundImage: "url('/hero.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center 34%',
+        backgroundPosition: 'center 44%',
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.22)] via-[rgba(0,0,0,0.10)] to-transparent" />
-
       <section
         className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center px-6 text-center"
-        style={{ paddingTop: '9vh' }}
+        style={{ paddingTop: '7vh' }}
       >
         <Image
           src="/logo.png"
@@ -61,7 +59,7 @@ export default function HomePage() {
           Your friends, your content
         </h1>
 
-        <form onSubmit={onSubmit} className="mt-10 w-full max-w-[520px]">
+        <form onSubmit={onSubmit} className="mt-14 w-full max-w-[520px]">
           <div className="flex flex-col gap-3 rounded-[999px] border border-white/18 bg-white/10 p-3 shadow-[0_10px_28px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:flex-row sm:items-center sm:gap-2">
             <input
               type="email"
