@@ -41,7 +41,7 @@ export default function HomePage() {
       style={{
         backgroundImage: "url('/hero.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center 74%',
+        backgroundPosition: 'center 16%',
         backgroundRepeat: 'no-repeat'
       }}
     >
@@ -53,43 +53,43 @@ export default function HomePage() {
       />
 
       <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-4 text-center sm:px-6">
-        <div className="flex flex-col items-center" style={{ paddingTop: '1vh' }}>
+        <div className="flex flex-col items-center" style={{ paddingTop: '10vh' }}>
           <Image
             src="/logo.png"
             alt="MEVO"
             width={520}
             height={176}
             priority
-            className="h-auto w-[clamp(190px,56vw,520px)]"
+            className="h-auto w-[clamp(160px,48vw,300px)] sm:w-[clamp(190px,56vw,520px)]"
             style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.08))' }}
           />
 
           <h1
-            className="mt-4 max-w-[300px] text-white sm:max-w-[840px]"
+            className="mt-[2.5vh] max-w-[290px] text-white sm:max-w-[840px]"
             style={{
               fontWeight: 300,
               letterSpacing: '-0.02em',
-              fontSize: 'clamp(30px, 4.8vw, 56px)',
+              fontSize: 'clamp(24px, 7.2vw, 56px)',
               lineHeight: 1.05
             }}
           >
             Your friends, your content
           </h1>
 
-          <form onSubmit={onSubmit} className="mt-3 w-full max-w-[360px]">
-            <div className="flex flex-col gap-1.5 rounded-[24px] border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.07)] p-1.5 backdrop-blur-[10px] shadow-[0_5px_10px_rgba(0,0,0,0.07)] sm:flex-row sm:items-center">
+          <form onSubmit={onSubmit} className="mt-[2.5vh] w-full max-w-[320px] sm:mt-3 sm:max-w-[360px]">
+            <div className="flex flex-col gap-1 rounded-[20px] border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.07)] p-1.5 backdrop-blur-[8px] shadow-[0_4px_8px_rgba(0,0,0,0.06)] sm:flex-row sm:items-center">
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
-                className="h-[38px] flex-1 rounded-[20px] bg-[#111] px-3.5 text-[14px] text-white outline-none placeholder:text-white/60"
+                className="h-[34px] flex-1 rounded-[18px] bg-[#111] px-3 text-[13px] text-white outline-none placeholder:text-white/60 sm:h-[38px] sm:px-3.5 sm:text-[14px]"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="h-[38px] self-end rounded-[20px] bg-white px-4 text-[13px] font-medium text-black transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_5px_10px_rgba(0,0,0,0.12)] disabled:translate-y-0 disabled:opacity-70 sm:self-auto"
+                className="h-[34px] self-end rounded-[18px] bg-white px-3.5 text-[12px] font-medium text-black transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_5px_10px_rgba(0,0,0,0.12)] disabled:translate-y-0 disabled:opacity-70 sm:h-[38px] sm:self-auto sm:rounded-[20px] sm:px-4 sm:text-[13px]"
               >
                 Join →
               </button>
