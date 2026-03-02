@@ -1,51 +1,84 @@
-# Mevo Waitlist Site
+# MEVO Waitlist (Next.js + Supabase)
 
-Simple launch-ready static waitlist for **Mevo**.
+Minimal one-page waitlist with Apple-style polish.
 
-## Files
+## Features
 
-- `index.html` — landing page
-- `styles.css` — styling
-- `script.js` — local waitlist capture (for demo)
-- `assets/` — drop your branding images here
+- Full-bleed hero background (`/public/hero.png`)
+- Centered MEVO logo (`/public/logo.png`)
+- Headline: **Your friends, your content**
+- Single email field + **Join our waitlist** button
+- API endpoint with:
+  - email validation
+  - dedupe (unique email)
+  - basic rate limiting
+- Supabase storage
+- Admin page (`/admin`) protected by `ADMIN_PASSWORD`
+- CSV export of signups
 
-## Add your Twitter branding
+## 1) Setup
 
-Save the same images you used on X/Twitter as:
+```bash
+npm install
+cp .env.example .env.local
+```
 
-- `assets/mevo-profile.jpg` (profile image)
-- `assets/mevo-header.jpg` (header/banner)
+Set env values in `.env.local`:
 
-The site already references these file names.
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `ADMIN_PASSWORD`
 
-## Important (email collection)
+## 2) Supabase table
 
-Current form stores emails in browser localStorage only (demo-safe).
+In Supabase SQL editor, run:
 
-To go live, connect a real form backend (choose one):
+```sql
+-- from supabase.sql
+create table if not exists public.waitlist_signups (
+  id bigserial primary key,
+  email text not null unique,
+  created_at timestamptz not null default now(),
+  referrer text,
+  user_agent text
+);
 
-1. Formspree
-2. ConvertKit
-3. Mailchimp embedded form
-4. Beehiiv
+create index if not exists waitlist_signups_created_at_idx
+  on public.waitlist_signups (created_at desc);
+```
 
-If you want, Clawdia can wire this to your chosen provider in 2 minutes.
+## 3) Add assets
 
-## Deploy fast
+Put these files in `/public`:
 
-### Netlify
-- Drag/drop this folder into Netlify deploy UI
+- `hero.png` (provided MEVO hero image)
+- `logo.png` (bubble/cloud MEVO logo from the same image)
 
-### Vercel
-- `npm i -g vercel`
-- `vercel`
+## 4) Run locally
 
-### Cloudflare Pages
-- Create new project > upload this folder
+```bash
+npm run dev
+```
 
-## Optional next improvements
+Open: `http://localhost:3000`
 
-- Add social proof logos
-- Add countdown timer to launch date
-- Add referral waitlist (invite friends to move up queue)
-- Add analytics (Plausible/GA4)
+## 5) Admin
+
+- Go to `http://localhost:3000/admin`
+- Enter `ADMIN_PASSWORD`
+- View signups + click **Download CSV**
+
+## 6) Deploy to Vercel
+
+```bash
+vercel
+vercel --prod
+```
+
+In Vercel Project Settings → Environment Variables, add:
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `ADMIN_PASSWORD`
+
+Redeploy after adding env vars.
