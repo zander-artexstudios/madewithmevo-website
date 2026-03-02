@@ -41,7 +41,7 @@ export default function HomePage() {
       style={{
         backgroundImage: "url('/hero.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center 24%',
+        backgroundPosition: 'center 60%',
         backgroundRepeat: 'no-repeat'
       }}
     >
@@ -53,30 +53,30 @@ export default function HomePage() {
       />
 
       <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-4 text-center sm:px-6">
-        <div className="flex flex-col items-center" style={{ paddingTop: '6vh' }}>
+        <div className="flex flex-col items-center" style={{ paddingTop: '3vh' }}>
           <Image
             src="/logo.png"
             alt="MEVO"
             width={520}
             height={176}
             priority
-            className="h-auto w-[clamp(220px,62vw,520px)]"
+            className="h-auto w-[clamp(190px,56vw,520px)]"
             style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.08))' }}
           />
 
           <h1
-            className="mt-8 max-w-[320px] text-white sm:max-w-[840px]"
+            className="mt-6 max-w-[300px] text-white sm:max-w-[840px]"
             style={{
               fontWeight: 300,
               letterSpacing: '-0.02em',
-              fontSize: 'clamp(35px, 5.2vw, 56px)',
+              fontSize: 'clamp(30px, 4.8vw, 56px)',
               lineHeight: 1.05
             }}
           >
             Your friends, your content
           </h1>
 
-          <form onSubmit={onSubmit} className="mt-8 w-full max-w-[470px]">
+          <form onSubmit={onSubmit} className="mt-6 w-full max-w-[430px]">
             <div className="flex flex-col gap-2 rounded-[28px] border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.07)] p-2 backdrop-blur-[12px] shadow-[0_6px_14px_rgba(0,0,0,0.08)] sm:flex-row sm:items-center">
               <input
                 type="email"
