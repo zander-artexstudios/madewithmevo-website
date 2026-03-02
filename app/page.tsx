@@ -38,14 +38,9 @@ export default function HomePage() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" />
 
       <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center px-6 pb-16 pt-10 text-center sm:pt-14">
-        <Image
-          src="/logo.png"
-          alt="MEVO"
-          width={260}
-          height={96}
-          priority
-          className="h-auto w-[180px] sm:w-[230px]"
-        />
+        <div className="text-[2.35rem] font-semibold tracking-[0.08em] text-white sm:text-[3rem]">
+          MEVO
+        </div>
 
         <h1 className="mt-10 text-[2.1rem] font-light leading-[1.05] tracking-[0.01em] text-white sm:mt-14 sm:text-[4rem]">
           Your friends, your content
