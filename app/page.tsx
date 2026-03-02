@@ -25,46 +25,45 @@ export default function HomePage() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black">
-      <Image
-        src="/hero.png"
-        alt="MEVO background"
-        fill
-        priority
-        quality={100}
-        className="object-cover object-bottom"
-      />
+    <main
+      className="relative min-h-screen overflow-hidden bg-black"
+      style={{
+        backgroundImage: "url('/hero.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 15%',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.25)] to-transparent" style={{ maskImage: 'linear-gradient(to bottom, black 0%, black 45%, transparent 100%)' }} />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-transparent" />
-
-      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center px-6 text-center">
+      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center px-6 text-center" style={{ paddingTop: '24vh' }}>
         <Image
           src="/logo.png"
           alt="MEVO"
-          width={280}
-          height={104}
+          width={520}
+          height={180}
           priority
-          className="mb-8 h-auto w-[190px] sm:w-[250px]"
+          className="h-auto w-[clamp(260px,40vw,520px)]"
         />
 
-        <h1 className="mb-14 text-[2.15rem] font-extralight leading-[1.04] tracking-[0.012em] text-white sm:text-[4rem]">
+        <h1 className="mt-7 max-w-[900px] text-white" style={{ fontWeight: 300, letterSpacing: '-0.02em', fontSize: 'clamp(40px, 4vw, 64px)', lineHeight: 1.1 }}>
           Your friends, your content
         </h1>
 
-        <form onSubmit={onSubmit} className="w-full max-w-[520px]">
-          <div className="flex flex-col gap-3 rounded-[999px] border border-white/20 bg-white/10 p-3 shadow-[0_14px_40px_rgba(0,0,0,0.22)] backdrop-blur-md sm:flex-row sm:items-center sm:gap-2">
+        <form onSubmit={onSubmit} className="mt-8 w-full max-w-[560px]">
+          <div className="flex flex-col gap-3 rounded-[999px] border border-white/20 bg-white/10 p-3 shadow-[0_12px_30px_rgba(0,0,0,0.18)] backdrop-blur-md sm:flex-row sm:items-center sm:gap-2">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
-              className="h-12 flex-1 rounded-full border border-white/10 bg-[#1c1c1e]/92 px-5 text-base text-white outline-none placeholder:text-white/75"
+              className="h-12 flex-1 rounded-full border border-white/10 bg-[#1f1f1f]/95 px-5 text-base text-white outline-none placeholder:text-white/72"
             />
             <button
               type="submit"
               disabled={loading}
-              className="h-12 rounded-full bg-white px-7 text-sm font-semibold text-black transition duration-200 hover:-translate-y-[2px] disabled:translate-y-0 disabled:opacity-70"
+              className="h-12 rounded-full bg-white px-7 text-sm font-semibold text-black transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.22)] disabled:translate-y-0 disabled:opacity-70"
             >
               Join our waitlist
             </button>
