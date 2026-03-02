@@ -41,7 +41,7 @@ export default function HomePage() {
       style={{
         backgroundImage: "url('/hero.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center 60%',
+        backgroundPosition: 'center 74%',
         backgroundRepeat: 'no-repeat'
       }}
     >
@@ -53,7 +53,7 @@ export default function HomePage() {
       />
 
       <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-4 text-center sm:px-6">
-        <div className="flex flex-col items-center" style={{ paddingTop: '3vh' }}>
+        <div className="flex flex-col items-center" style={{ paddingTop: '1vh' }}>
           <Image
             src="/logo.png"
             alt="MEVO"
@@ -65,7 +65,7 @@ export default function HomePage() {
           />
 
           <h1
-            className="mt-6 max-w-[300px] text-white sm:max-w-[840px]"
+            className="mt-4 max-w-[300px] text-white sm:max-w-[840px]"
             style={{
               fontWeight: 300,
               letterSpacing: '-0.02em',
@@ -76,7 +76,7 @@ export default function HomePage() {
             Your friends, your content
           </h1>
 
-          <form onSubmit={onSubmit} className="mt-4 w-full max-w-[380px]">
+          <form onSubmit={onSubmit} className="mt-3 w-full max-w-[360px]">
             <div className="flex flex-col gap-1.5 rounded-[24px] border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.07)] p-1.5 backdrop-blur-[10px] shadow-[0_5px_10px_rgba(0,0,0,0.07)] sm:flex-row sm:items-center">
               <input
                 type="email"
