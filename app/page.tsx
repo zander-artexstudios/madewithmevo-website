@@ -76,20 +76,20 @@ export default function HomePage() {
             Your friends, your content
           </h1>
 
-          <form onSubmit={onSubmit} className="mt-6 w-full max-w-[430px]">
-            <div className="flex flex-col gap-2 rounded-[28px] border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.07)] p-2 backdrop-blur-[12px] shadow-[0_6px_14px_rgba(0,0,0,0.08)] sm:flex-row sm:items-center">
+          <form onSubmit={onSubmit} className="mt-4 w-full max-w-[380px]">
+            <div className="flex flex-col gap-1.5 rounded-[24px] border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.07)] p-1.5 backdrop-blur-[10px] shadow-[0_5px_10px_rgba(0,0,0,0.07)] sm:flex-row sm:items-center">
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
-                className="h-[42px] flex-1 rounded-[22px] bg-[#111] px-4 text-[15px] text-white outline-none placeholder:text-white/60"
+                className="h-[38px] flex-1 rounded-[20px] bg-[#111] px-3.5 text-[14px] text-white outline-none placeholder:text-white/60"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="h-[42px] self-end rounded-[22px] bg-white px-5 text-sm font-medium text-black transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_5px_12px_rgba(0,0,0,0.12)] disabled:translate-y-0 disabled:opacity-70 sm:self-auto"
+                className="h-[38px] self-end rounded-[20px] bg-white px-4 text-[13px] font-medium text-black transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_5px_10px_rgba(0,0,0,0.12)] disabled:translate-y-0 disabled:opacity-70 sm:self-auto"
               >
                 Join →
               </button>
