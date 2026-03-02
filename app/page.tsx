@@ -53,30 +53,30 @@ export default function HomePage() {
       />
 
       <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-4 text-center sm:px-6">
-        <div className="flex flex-col items-center" style={{ paddingTop: 'calc(10vh - 40px)' }}>
+        <div className="flex flex-col items-center" style={{ paddingTop: 'calc(10vh - 80px)' }}>
           <Image
             src="/logo.png"
             alt="MEVO"
             width={520}
             height={176}
             priority
-            className="h-auto w-[clamp(160px,48vw,300px)] sm:w-[clamp(190px,56vw,520px)]"
+            className="h-auto w-[clamp(140px,42vw,260px)] sm:w-[clamp(190px,56vw,520px)]"
             style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.08))' }}
           />
 
           <h1
-            className="mt-[2.5vh] max-w-[290px] text-white sm:max-w-[840px]"
+            className="mt-[2vh] max-w-[250px] text-white sm:max-w-[840px]"
             style={{
               fontWeight: 300,
               letterSpacing: '-0.02em',
-              fontSize: 'clamp(24px, 7.2vw, 56px)',
+              fontSize: 'clamp(20px, 6.4vw, 56px)',
               lineHeight: 1.05
             }}
           >
             Your friends, your content
           </h1>
 
-          <form onSubmit={onSubmit} className="mt-[2.5vh] w-full max-w-[320px] sm:mt-3 sm:max-w-[360px]">
+          <form onSubmit={onSubmit} className="mt-[2vh] w-full max-w-[280px] sm:mt-3 sm:max-w-[360px]">
             <div className="flex flex-col gap-1 rounded-[20px] border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.07)] p-1.5 backdrop-blur-[8px] shadow-[0_4px_8px_rgba(0,0,0,0.06)] sm:flex-row sm:items-center">
               <input
                 type="email"
