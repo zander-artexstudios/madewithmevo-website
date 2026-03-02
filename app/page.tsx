@@ -59,7 +59,7 @@ export default function HomePage() {
           Your friends, your content
         </h1>
 
-        <form onSubmit={onSubmit} className="mt-14 w-full max-w-[520px]">
+        <form onSubmit={onSubmit} className="mt-10 w-full max-w-[520px]">
           <div className="flex flex-col gap-3 rounded-[999px] border border-white/18 bg-white/10 p-3 shadow-[0_10px_28px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:flex-row sm:items-center sm:gap-2">
             <input
               type="email"
