@@ -41,57 +41,72 @@ export default function HomePage() {
       style={{
         backgroundImage: "url('/hero.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center 16%',
+        backgroundPosition: 'center 62%',
         backgroundRepeat: 'no-repeat'
       }}
     >
       <div
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 45%)'
+          background:
+            'linear-gradient(to bottom, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.0) 50%), radial-gradient(circle at 50% 60%, rgba(0,0,0,0.0) 60%, rgba(0,0,0,0.12) 100%)'
         }}
       />
+      <div className="absolute inset-0 mix-blend-multiply" style={{ background: 'linear-gradient(to bottom, rgba(24,48,92,0.08), rgba(0,0,0,0))' }} />
+      <div className="absolute inset-0 mix-blend-soft-light" style={{ background: 'linear-gradient(to top, rgba(145,184,255,0.08), rgba(0,0,0,0) 58%)' }} />
 
-      <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-4 text-center sm:px-6">
-        <div className="flex flex-col items-center" style={{ paddingTop: 'calc(10vh - 80px)' }}>
+      <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-5 text-center sm:px-8">
+        <div className="flex flex-col items-center" style={{ paddingTop: '16vh' }}>
           <Image
             src="/logo.png"
             alt="MEVO"
-            width={520}
-            height={176}
+            width={560}
+            height={190}
             priority
-            className="h-auto w-[clamp(140px,42vw,260px)] sm:w-[clamp(190px,56vw,520px)]"
-            style={{ filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.08))' }}
+            className="h-auto w-[clamp(180px,58vw,360px)] sm:w-[clamp(220px,48vw,560px)]"
+            style={{ filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.12))' }}
           />
 
           <h1
-            className="mt-[2vh] max-w-[250px] text-white sm:max-w-[840px]"
+            className="mt-9 max-w-[760px] text-white"
             style={{
-              fontWeight: 300,
+              fontWeight: 700,
               letterSpacing: '-0.02em',
-              fontSize: 'clamp(20px, 6.4vw, 56px)',
-              lineHeight: 1.05
+              fontSize: 'clamp(34px, 8.4vw, 72px)',
+              lineHeight: 1.02
             }}
           >
-            Your friends, your content
+            Your friends. Your show.
           </h1>
 
-          <form onSubmit={onSubmit} className="mt-[2vh] w-full max-w-[280px] sm:mt-3 sm:max-w-[360px]">
-            <div className="flex flex-col gap-1 rounded-[20px] border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.07)] p-1.5 backdrop-blur-[8px] shadow-[0_4px_8px_rgba(0,0,0,0.06)] sm:flex-row sm:items-center">
+          <p
+            className="mt-3 max-w-[560px] text-white/85"
+            style={{
+              fontWeight: 400,
+              letterSpacing: '-0.005em',
+              fontSize: 'clamp(15px, 3.8vw, 24px)',
+              lineHeight: 1.3
+            }}
+          >
+            Private AI-generated episodes for your group.
+          </p>
+
+          <form onSubmit={onSubmit} className="mt-8 w-full max-w-[410px] sm:max-w-[520px]">
+            <div className="flex flex-col gap-2 rounded-[28px] border border-[rgba(255,255,255,0.20)] bg-[rgba(255,255,255,0.07)] p-2 backdrop-blur-[10px] [box-shadow:inset_0_1px_0_rgba(255,255,255,0.16)] sm:flex-row sm:items-center">
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
-                className="h-[34px] flex-1 rounded-[18px] bg-[#111] px-3 text-[13px] text-white outline-none placeholder:text-white/60 sm:h-[38px] sm:px-3.5 sm:text-[14px]"
+                className="h-[42px] flex-1 rounded-[20px] border border-transparent bg-[rgba(17,17,17,0.86)] px-4 text-[14px] text-white outline-none placeholder:text-[#c9c9ce] sm:h-[48px] sm:text-[15px]"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="h-[34px] self-end rounded-[18px] bg-white px-3.5 text-[12px] font-medium text-black transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_5px_10px_rgba(0,0,0,0.12)] disabled:translate-y-0 disabled:opacity-70 sm:h-[38px] sm:self-auto sm:rounded-[20px] sm:px-4 sm:text-[13px]"
+                className="h-[42px] rounded-[20px] bg-[#f4f4f6] px-5 text-[14px] font-medium text-black transition duration-200 hover:bg-[#e9e9ed] disabled:opacity-70 sm:h-[48px]"
               >
-                Join →
+                Join
               </button>
             </div>
             <p className="mt-2 min-h-5 text-xs text-white/80" aria-live="polite">
