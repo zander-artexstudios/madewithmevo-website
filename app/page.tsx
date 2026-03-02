@@ -36,14 +36,14 @@ export default function HomePage() {
         alt="MEVO hero"
         fill
         priority
-        className="object-cover"
+        className="object-cover object-center"
       />
 
-      <div className="absolute inset-0 bg-black/20" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/55 to-black/75 backdrop-blur-[1px]" />
+      <div className="absolute inset-0 bg-black/25" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black/78" />
 
       <section className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 text-center">
-        <div className="mb-8">
+        <div className="mb-7 rounded-[28px] bg-black/18 px-8 py-3 backdrop-blur-md sm:mb-8">
           <Image
             src="/logo.png"
             alt="MEVO"
@@ -53,24 +53,24 @@ export default function HomePage() {
           />
         </div>
 
-        <h1 className="mb-8 text-3xl font-medium tracking-tight text-white sm:text-5xl">
+        <h1 className="mb-9 text-[2rem] font-medium tracking-[-0.02em] text-white sm:text-[3.35rem]">
           Your friends, your content
         </h1>
 
-        <form onSubmit={onSubmit} className="w-full max-w-xl">
-          <div className="flex flex-col gap-3 sm:flex-row">
+        <form onSubmit={onSubmit} className="w-full max-w-[640px]">
+          <div className="mx-auto flex max-w-[560px] flex-col gap-3 rounded-[24px] border border-white/15 bg-black/30 p-3 backdrop-blur-xl sm:flex-row sm:items-center sm:gap-2">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
-              className="h-12 flex-1 rounded-full border border-white/20 bg-black/45 px-5 text-base outline-none ring-white/30 placeholder:text-white/65 focus:ring"
+              className="h-12 flex-1 rounded-full border border-white/20 bg-white/8 px-5 text-base text-white outline-none ring-white/30 placeholder:text-white/60 focus:ring"
             />
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="h-12 rounded-full bg-white px-7 text-sm font-semibold text-black transition hover:bg-white/90 disabled:opacity-70"
+              className="h-12 rounded-full bg-white px-7 text-sm font-semibold text-black transition hover:bg-white/90 disabled:opacity-70 sm:shrink-0"
             >
               Join our waitlist
             </button>
