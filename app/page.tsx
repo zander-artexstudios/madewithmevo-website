@@ -39,11 +39,12 @@ export default function HomePage() {
         className="object-cover object-center"
       />
 
-      <div className="absolute inset-0 bg-black/25" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black/78" />
+      <div className="absolute inset-0 bg-black/22" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/48 to-black/80" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.08),transparent_48%)]" />
 
       <section className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 text-center">
-        <div className="mb-7 rounded-[28px] bg-black/18 px-8 py-3 backdrop-blur-md sm:mb-8">
+        <div className="mb-7 rounded-[28px] border border-white/10 bg-black/18 px-8 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md sm:mb-8">
           <Image
             src="/logo.png"
             alt="MEVO"
@@ -53,7 +54,7 @@ export default function HomePage() {
           />
         </div>
 
-        <h1 className="mb-9 text-[2rem] font-medium tracking-[-0.02em] text-white sm:text-[3.35rem]">
+        <h1 className="mb-9 text-[2rem] font-medium leading-[1.05] tracking-[-0.03em] text-white sm:text-[3.45rem]">
           Your friends, your content
         </h1>
 
@@ -70,7 +71,7 @@ export default function HomePage() {
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="h-12 rounded-full bg-white px-7 text-sm font-semibold text-black transition hover:bg-white/90 disabled:opacity-70 sm:shrink-0"
+              className="h-12 rounded-full bg-white px-7 text-sm font-semibold text-black shadow-[0_8px_24px_rgba(255,255,255,0.28)] transition duration-200 hover:-translate-y-[1px] hover:bg-white/92 disabled:translate-y-0 disabled:opacity-70 sm:shrink-0"
             >
               Join our waitlist
             </button>
