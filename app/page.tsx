@@ -37,38 +37,28 @@ export default function HomePage() {
         fill
         priority
         quality={100}
-        className="object-cover object-center scale-[1.01]"
+        className="object-cover object-center scale-[1.04] blur-[2px]"
       />
 
-      <div className="absolute inset-0 bg-black/18" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/45 to-black/82" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.1),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.36)_100%)]" />
+      <div className="absolute inset-0 bg-black/35" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/58 to-black/86" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(24,78,180,0.18),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.46)_100%)]" />
 
-      <section className="relative z-10 mx-auto flex w-full max-w-[960px] flex-col items-center px-6 text-center 2xl:max-w-[1120px]">
-        <div className="mb-7 rounded-[30px] border border-white/12 bg-black/16 px-8 py-3 shadow-[0_16px_56px_rgba(0,0,0,0.42)] backdrop-blur-lg sm:mb-8">
-          <Image
-            src="/logo.png"
-            alt="MEVO"
-            width={230}
-            height={90}
-            className="mx-auto h-auto w-[180px] sm:w-[230px]"
-          />
-        </div>
-
-        <h1 className="mb-9 text-[2rem] font-medium leading-[1.02] tracking-[-0.032em] text-white sm:text-[3.6rem] 2xl:text-[4.05rem]">
+      <section className="relative z-10 mx-auto flex w-full max-w-[980px] flex-col items-center px-6 text-center 2xl:max-w-[1180px]">
+        <h1 className="mb-10 text-[2.1rem] font-medium leading-[1.03] tracking-[-0.03em] text-white sm:text-[3.9rem] 2xl:text-[4.25rem]">
           Your friends, your content
         </h1>
 
-        <form onSubmit={onSubmit} className="w-full max-w-[640px]">
-          <div className="mx-auto flex max-w-[620px] flex-col gap-3 rounded-[24px] border border-white/15 bg-black/28 p-3 shadow-[0_12px_40px_rgba(0,0,0,0.32)] backdrop-blur-2xl sm:flex-row sm:items-center sm:gap-2">
+        <form onSubmit={onSubmit} className="w-full max-w-[680px]">
+          <div className="mx-auto flex max-w-[640px] flex-col gap-3 rounded-[26px] border border-white/20 bg-black/42 p-3 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-2xl sm:flex-row sm:items-center sm:gap-2">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
-              className="h-12 flex-1 rounded-full border border-white/20 bg-white/10 px-5 text-base text-white outline-none ring-white/30 placeholder:text-white/58 focus:ring focus:ring-offset-0"
+              className="h-12 flex-1 rounded-full border border-white/25 bg-white/12 px-5 text-base text-white outline-none ring-white/30 placeholder:text-white/70 focus:ring focus:ring-offset-0"
             />
             <button
               type="submit"
