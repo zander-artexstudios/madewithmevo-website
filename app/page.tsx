@@ -30,23 +30,23 @@ export default function HomePage() {
       style={{
         backgroundImage: "url('/hero.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center 15%',
+        backgroundPosition: 'center 18%',
         backgroundRepeat: 'no-repeat'
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.25)] to-transparent" style={{ maskImage: 'linear-gradient(to bottom, black 0%, black 45%, transparent 100%)' }} />
 
-      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center px-6 text-center" style={{ paddingTop: '24vh' }}>
+      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center px-6 text-center" style={{ paddingTop: '22vh' }}>
         <Image
           src="/logo.png"
           alt="MEVO"
           width={520}
           height={180}
           priority
-          className="h-auto w-[clamp(260px,40vw,520px)]"
+          className="h-auto w-[clamp(280px,42vw,500px)]"
         />
 
-        <h1 className="mt-7 max-w-[900px] text-white" style={{ fontWeight: 300, letterSpacing: '-0.02em', fontSize: 'clamp(40px, 4vw, 64px)', lineHeight: 1.1 }}>
+        <h1 className="mt-7 max-w-[920px] text-white" style={{ fontWeight: 300, letterSpacing: '-0.02em', fontSize: 'clamp(44px, 4.2vw, 68px)', lineHeight: 1.08 }}>
           Your friends, your content
         </h1>
 
