@@ -36,21 +36,21 @@ export default function HomePage() {
     >
       <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.25)] to-transparent" style={{ maskImage: 'linear-gradient(to bottom, black 0%, black 45%, transparent 100%)' }} />
 
-      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center px-6 text-center" style={{ paddingTop: '22vh' }}>
+      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center px-6 text-center" style={{ paddingTop: '17vh' }}>
         <Image
           src="/logo.png"
           alt="MEVO"
           width={520}
           height={180}
           priority
-          className="h-auto w-[clamp(280px,42vw,500px)]"
+          className="h-auto w-[clamp(280px,41vw,500px)] saturate-[0.88]"
         />
 
-        <h1 className="mt-7 max-w-[920px] text-white" style={{ fontWeight: 300, letterSpacing: '-0.02em', fontSize: 'clamp(44px, 4.2vw, 68px)', lineHeight: 1.08 }}>
+        <h1 className="mt-6 max-w-[920px] text-white" style={{ fontWeight: 300, letterSpacing: '-0.02em', fontSize: 'clamp(44px, 4.2vw, 68px)', lineHeight: 1.08 }}>
           Your friends, your content
         </h1>
 
-        <form onSubmit={onSubmit} className="mt-8 w-full max-w-[560px]">
+        <form onSubmit={onSubmit} className="mt-7 w-full max-w-[540px]">
           <div className="flex flex-col gap-3 rounded-[999px] border border-white/20 bg-white/10 p-3 shadow-[0_12px_30px_rgba(0,0,0,0.18)] backdrop-blur-md sm:flex-row sm:items-center sm:gap-2">
             <input
               type="email"
