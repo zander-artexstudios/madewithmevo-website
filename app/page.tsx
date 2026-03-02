@@ -53,7 +53,7 @@ export default function HomePage() {
       />
 
       <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-4 text-center sm:px-6">
-        <div className="flex flex-col items-center" style={{ paddingTop: '10vh' }}>
+        <div className="flex flex-col items-center" style={{ paddingTop: 'calc(10vh - 40px)' }}>
           <Image
             src="/logo.png"
             alt="MEVO"
