@@ -32,34 +32,39 @@ export default function HomePage() {
         fill
         priority
         quality={100}
-        className="object-cover object-center"
+        className="object-cover object-bottom"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-transparent" />
 
-      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center px-6 pb-16 pt-10 text-center sm:pt-14">
-        <div className="text-[2.35rem] font-semibold tracking-[0.08em] text-white sm:text-[3rem]">
-          MEVO
-        </div>
+      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center px-6 text-center">
+        <Image
+          src="/logo.png"
+          alt="MEVO"
+          width={280}
+          height={104}
+          priority
+          className="mb-8 h-auto w-[190px] sm:w-[250px]"
+        />
 
-        <h1 className="mt-10 text-[2.1rem] font-light leading-[1.05] tracking-[0.01em] text-white sm:mt-14 sm:text-[4rem]">
+        <h1 className="mb-14 text-[2.15rem] font-extralight leading-[1.04] tracking-[0.012em] text-white sm:text-[4rem]">
           Your friends, your content
         </h1>
 
-        <form onSubmit={onSubmit} className="mt-14 w-full max-w-[660px] sm:mt-16">
-          <div className="flex flex-col gap-3 rounded-[999px] border border-white/20 bg-white/10 p-3 backdrop-blur-md sm:flex-row sm:items-center sm:gap-2">
+        <form onSubmit={onSubmit} className="w-full max-w-[520px]">
+          <div className="flex flex-col gap-3 rounded-[999px] border border-white/20 bg-white/10 p-3 shadow-[0_14px_40px_rgba(0,0,0,0.22)] backdrop-blur-md sm:flex-row sm:items-center sm:gap-2">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
-              className="h-12 flex-1 rounded-full border border-white/10 bg-[#1a1a1a]/92 px-5 text-base text-white outline-none placeholder:text-white/55"
+              className="h-12 flex-1 rounded-full border border-white/10 bg-[#1c1c1e]/92 px-5 text-base text-white outline-none placeholder:text-white/75"
             />
             <button
               type="submit"
               disabled={loading}
-              className="h-12 rounded-full bg-white px-7 text-sm font-semibold text-black transition duration-200 hover:-translate-y-[1px] disabled:opacity-70"
+              className="h-12 rounded-full bg-white px-7 text-sm font-semibold text-black transition duration-200 hover:-translate-y-[2px] disabled:translate-y-0 disabled:opacity-70"
             >
               Join our waitlist
             </button>
