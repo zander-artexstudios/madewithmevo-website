@@ -30,13 +30,13 @@ export default function HomePage() {
       style={{
         backgroundImage: "url('/hero.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center 44%',
+        backgroundPosition: 'center 22%',
         backgroundRepeat: 'no-repeat'
       }}
     >
       <section
-        className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center px-6 text-center"
-        style={{ paddingTop: '7vh' }}
+        className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col items-center px-4 text-center sm:min-h-screen sm:px-6"
+        style={{ paddingTop: '9vh' }}
       >
         <Image
           src="/logo.png"
@@ -44,23 +44,23 @@ export default function HomePage() {
           width={500}
           height={170}
           priority
-          className="h-auto w-[clamp(280px,39vw,500px)] saturate-[0.88]"
+          className="h-auto w-[clamp(190px,56vw,500px)] saturate-[0.88]"
         />
 
         <h1
-          className="mt-6 max-w-[900px] text-white/95"
+          className="mt-5 max-w-[330px] text-white/95 sm:mt-6 sm:max-w-[900px]"
           style={{
             fontWeight: 300,
             letterSpacing: '-0.02em',
-            fontSize: 'clamp(40px, 3.7vw, 58px)',
-            lineHeight: 1.1
+            fontSize: 'clamp(26px, 7.6vw, 58px)',
+            lineHeight: 1.08
           }}
         >
           Your friends, your content
         </h1>
 
-        <form onSubmit={onSubmit} className="mt-10 w-full max-w-[520px]">
-          <div className="flex flex-col gap-3 rounded-[999px] border border-white/18 bg-white/10 p-3 shadow-[0_10px_28px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:flex-row sm:items-center sm:gap-2">
+        <form onSubmit={onSubmit} className="mt-7 w-full max-w-[520px] sm:mt-10">
+          <div className="flex flex-col gap-2.5 rounded-[38px] border border-white/18 bg-white/10 p-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:gap-3 sm:rounded-[999px] sm:p-3 sm:flex-row sm:items-center sm:gap-2">
             <input
               type="email"
               required
