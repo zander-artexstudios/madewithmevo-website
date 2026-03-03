@@ -80,5 +80,17 @@ In Vercel Project Settings → Environment Variables, add:
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `ADMIN_PASSWORD`
+- `MEVO_EPISODE_BASE_COST` (optional, default 100)
 
 Redeploy after adding env vars.
+
+## 7) Mevo backend scaffolding (new)
+
+The app now includes starter APIs for Mevo world/credit/orchestration flows:
+
+- `GET/POST /api/mevo/worlds`
+- `GET /api/mevo/credits`
+- `POST /api/mevo/episodes/queue`
+
+These endpoints use Supabase tables from your Mevo schema (`worlds`, `episodes`, `credit_ledgers`).
+They are designed as a clean MVP scaffold for the persistent world engine.
