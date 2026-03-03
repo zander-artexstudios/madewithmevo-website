@@ -49,11 +49,11 @@ export default function HomePage() {
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(to bottom, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.0) 50%), radial-gradient(circle at 50% 60%, rgba(0,0,0,0.0) 60%, rgba(0,0,0,0.12) 100%)'
+            'linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.0) 50%), radial-gradient(circle at 50% 62%, rgba(0,0,0,0.0) 64%, rgba(0,0,0,0.10) 100%)'
         }}
       />
-      <div className="absolute inset-0 mix-blend-multiply" style={{ background: 'linear-gradient(to bottom, rgba(24,48,92,0.08), rgba(0,0,0,0))' }} />
-      <div className="absolute inset-0 mix-blend-soft-light" style={{ background: 'linear-gradient(to top, rgba(145,184,255,0.08), rgba(0,0,0,0) 58%)' }} />
+      <div className="absolute inset-0 mix-blend-multiply" style={{ background: 'linear-gradient(to bottom, rgba(24,48,92,0.06), rgba(0,0,0,0))' }} />
+      <div className="absolute inset-0 mix-blend-soft-light" style={{ background: 'linear-gradient(to top, rgba(145,184,255,0.06), rgba(0,0,0,0) 58%)' }} />
 
       <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-5 text-center sm:px-8">
         <div className="flex flex-col items-center" style={{ paddingTop: 'max(2px, env(safe-area-inset-top))' }}>
@@ -63,7 +63,7 @@ export default function HomePage() {
             width={560}
             height={190}
             priority
-            className="h-auto w-[clamp(120px,34vw,180px)] sm:w-[clamp(240px,50vw,560px)]"
+            className="h-auto w-[clamp(128px,36vw,190px)] sm:w-[clamp(250px,50vw,560px)]"
             style={{ filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.12))' }}
           />
 
@@ -72,7 +72,7 @@ export default function HomePage() {
             style={{
               fontWeight: 700,
               letterSpacing: '-0.02em',
-              fontSize: 'clamp(16px, 4.6vw, 72px)',
+              fontSize: 'clamp(17px, 4.9vw, 72px)',
               lineHeight: 1.02
             }}
           >
