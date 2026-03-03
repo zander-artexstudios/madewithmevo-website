@@ -91,6 +91,12 @@ The app now includes starter APIs for Mevo world/credit/orchestration flows:
 - `GET/POST /api/mevo/worlds`
 - `GET /api/mevo/credits`
 - `POST /api/mevo/episodes/queue`
+- `POST /api/mevo/episodes/generate` (pipeline stub: memory -> script -> shotlist)
+- `GET /api/mevo/admin/costs` (credit spend visibility)
 
-These endpoints use Supabase tables from your Mevo schema (`worlds`, `episodes`, `credit_ledgers`).
+These endpoints use Supabase tables from your Mevo schema (`worlds`, `episodes`, `credit_ledgers`, `world_memory`).
 They are designed as a clean MVP scaffold for the persistent world engine.
+
+### Temporary auth for Mevo APIs
+For now, pass `x-mevo-user-id: <uuid-or-user-key>` header.
+Next step: replace with real session auth.
