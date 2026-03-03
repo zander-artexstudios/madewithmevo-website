@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
 
   const supabase = getSupabaseAdmin();
 
-  // Pull continuity context (starter heuristic, to be upgraded to vector retrieval).
   const [canonRes, recentRes, threadRes] = await Promise.all([
     supabase.from('world_memory').select('content').eq('world_id', worldId).eq('kind', 'canon').order('created_at', { ascending: false }).limit(30),
     supabase.from('world_memory').select('content').eq('world_id', worldId).eq('kind', 'episode').order('created_at', { ascending: false }).limit(3),
@@ -28,21 +27,26 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'memory_fetch_failed' }, { status: 500 });
   }
 
-  const { script, shotlist } = buildGeneratedEpisodePayload({
-    canon: (canonRes.data || []).map((r) => r.content),
-    recentEpisodes: (recentRes.data || []).map((r) => r.content),
-    openThreads: (threadRes.data || []).map((r) => r.content)
-  });
+  try {
+    const { script, shotlist } = await buildGeneratedEpisodePayload({
+      worldId,
+      canon: (canonRes.data || []).map((r) => r.content),
+      recentEpisodes: (recentRes.data || []).map((r) => r.content),
+      openThreads: (threadRes.data || []).map((r) => r.content)
+    });
 
-  const { error: updateError } = await supabase
-    .from('episodes')
-    .update({ status: 'generated', script, shotlist })
-    .eq('id', episodeId)
-    .eq('world_id', worldId);
+    const { error: updateError } = await supabase
+      .from('episodes')
+      .update({ status: 'generated', script, shotlist })
+      .eq('id', episodeId)
+      .eq('world_id', worldId);
 
-  if (updateError) {
-    return NextResponse.json({ ok: false, error: updateError.message }, { status: 500 });
+    if (updateError) {
+      return NextResponse.json({ ok: false, error: updateError.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true, episodeId, worldId, status: 'generated' });
+  } catch (err: any) {
+    return NextResponse.json({ ok: false, error: err?.message || 'generation_failed' }, { status: 500 });
   }
-
-  return NextResponse.json({ ok: true, episodeId, worldId, status: 'generated' });
 }

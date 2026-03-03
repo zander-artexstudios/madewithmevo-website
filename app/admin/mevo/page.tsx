@@ -38,6 +38,54 @@ export default function MevoAdminPage() {
     }
   }
 
+  async function publishLatestGenerated() {
+    setRunning(true);
+    setMsg('');
+    try {
+      const resEpisodes = await fetch('/api/mevo/admin/costs?days=30', { cache: 'no-store' });
+      await resEpisodes.json();
+
+      const lookup = await fetch('/api/mevo/worlds?userId=demo', { cache: 'no-store' });
+      const w = await lookup.json();
+      const worldId = w?.worlds?.[0]?.id;
+      if (!worldId) {
+        setMsg('No demo world found for publish test');
+        return;
+      }
+
+      const r = await fetch('/api/mevo/episodes/queue', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: 'demo', worldId, plan: 'free' })
+      });
+      const queued = await r.json();
+      const episodeId = queued?.episode?.id;
+      if (!episodeId) {
+        setMsg('Failed to queue publish test episode');
+        return;
+      }
+
+      await fetch('/api/mevo/episodes/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-mevo-user-id': 'demo' },
+        body: JSON.stringify({ worldId, episodeId })
+      });
+
+      const pub = await fetch('/api/mevo/episodes/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ episodeId })
+      });
+      const pubJson = await pub.json();
+      setMsg(pubJson?.ok ? `Published test episode: ${pubJson.shareUrl}` : 'Publish test failed');
+      await load();
+    } catch {
+      setMsg('Publish test failed');
+    } finally {
+      setRunning(false);
+    }
+  }
+
   useEffect(() => {
     load().catch(() => setMsg('Failed to load costs'));
   }, []);
@@ -47,13 +95,22 @@ export default function MevoAdminPage() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h1 className="text-2xl font-medium">Mevo Admin</h1>
-          <button
-            onClick={runDue}
-            disabled={running}
-            className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-black disabled:opacity-60"
-          >
-            {running ? 'Running…' : 'Run queued episodes'}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={runDue}
+              disabled={running}
+              className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-black disabled:opacity-60"
+            >
+              {running ? 'Running…' : 'Run queued episodes'}
+            </button>
+            <button
+              onClick={publishLatestGenerated}
+              disabled={running}
+              className="rounded-full border border-white/30 bg-transparent px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+            >
+              Publish smoke test
+            </button>
+          </div>
         </div>
 
         <p className="mb-6 text-sm text-white/70">{msg}</p>

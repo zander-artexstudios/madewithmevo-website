@@ -92,9 +92,10 @@ The app now includes starter APIs for Mevo world/credit/orchestration flows:
 - `GET /api/mevo/credits`
 - `POST /api/mevo/episodes/queue`
 - `POST /api/mevo/episodes/generate` (pipeline stub: memory -> script -> shotlist)
-- `POST /api/mevo/episodes/run-due` (batch runner for queued episodes)
+- `POST /api/mevo/episodes/run-due` (batch runner for queued episodes + retry logic)
+- `POST /api/mevo/episodes/publish` (moves generated episode to published + share URL)
 - `GET /api/mevo/admin/costs` (credit spend visibility, requires admin cookie)
-- `/admin/mevo` (internal dashboard + run queued episodes button)
+- `/admin/mevo` (internal dashboard + run queued episodes/publish smoke test)
 
 These endpoints use Supabase tables from your Mevo schema (`worlds`, `episodes`, `credit_ledgers`, `world_memory`).
 They are designed as a clean MVP scaffold for the persistent world engine.
