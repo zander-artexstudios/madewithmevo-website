@@ -63,7 +63,7 @@ export default function HomePage() {
             width={560}
             height={190}
             priority
-            className="h-auto w-[clamp(170px,46vw,250px)] sm:w-[clamp(290px,54vw,620px)]"
+            className="h-auto w-[clamp(220px,62vw,340px)] sm:w-[clamp(340px,60vw,700px)]"
             style={{ filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.12))' }}
           />
 
