@@ -41,7 +41,7 @@ export default function HomePage() {
       style={{
         backgroundImage: "url('/hero.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center 8%',
+        backgroundPosition: 'center top',
         backgroundRepeat: 'no-repeat'
       }}
     >
@@ -56,7 +56,7 @@ export default function HomePage() {
       <div className="absolute inset-0 mix-blend-soft-light" style={{ background: 'linear-gradient(to top, rgba(145,184,255,0.08), rgba(0,0,0,0) 58%)' }} />
 
       <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-5 text-center sm:px-8">
-        <div className="flex flex-col items-center" style={{ paddingTop: 'max(8px, env(safe-area-inset-top))' }}>
+        <div className="flex flex-col items-center" style={{ paddingTop: 'max(2px, env(safe-area-inset-top))' }}>
           <Image
             src="/logo.png"
             alt="MEVO"
