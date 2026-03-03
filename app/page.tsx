@@ -41,7 +41,7 @@ export default function HomePage() {
       style={{
         backgroundImage: "url('/hero.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center 72%',
+        backgroundPosition: 'center 8%',
         backgroundRepeat: 'no-repeat'
       }}
     >
