@@ -56,14 +56,14 @@ export default function HomePage() {
       <div className="absolute inset-0 mix-blend-soft-light" style={{ background: 'linear-gradient(to top, rgba(145,184,255,0.08), rgba(0,0,0,0) 58%)' }} />
 
       <section className="relative z-10 mx-auto min-h-[100svh] w-full max-w-6xl px-5 text-center sm:px-8">
-        <div className="flex flex-col items-center" style={{ paddingTop: '2vh' }}>
+        <div className="flex flex-col items-center" style={{ paddingTop: 'max(8px, env(safe-area-inset-top))' }}>
           <Image
             src="/logo.png"
             alt="MEVO"
             width={560}
             height={190}
             priority
-            className="h-auto w-[clamp(180px,56vw,320px)] sm:w-[clamp(240px,50vw,560px)]"
+            className="h-auto w-[clamp(120px,34vw,180px)] sm:w-[clamp(240px,50vw,560px)]"
             style={{ filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.12))' }}
           />
 
@@ -72,7 +72,7 @@ export default function HomePage() {
             style={{
               fontWeight: 700,
               letterSpacing: '-0.02em',
-              fontSize: 'clamp(20px, 5.2vw, 72px)',
+              fontSize: 'clamp(16px, 4.6vw, 72px)',
               lineHeight: 1.02
             }}
           >
@@ -80,18 +80,18 @@ export default function HomePage() {
           </h1>
 
           <p
-            className="mt-1 max-w-[280px] text-white/85 sm:max-w-[560px]"
+            className="mt-1 max-w-[220px] text-white/80 sm:max-w-[560px]"
             style={{
               fontWeight: 400,
               letterSpacing: '-0.005em',
-              fontSize: 'clamp(15px, 3.8vw, 24px)',
+              fontSize: 'clamp(11px, 2.9vw, 24px)',
               lineHeight: 1.3
             }}
           >
             Private AI-generated episodes for your group.
           </p>
 
-          <form onSubmit={onSubmit} className="mt-2 w-full max-w-[260px] sm:max-w-[460px]">
+          <form onSubmit={onSubmit} className="mt-1 w-full max-w-[220px] sm:max-w-[460px]">
             <div className="flex flex-col gap-2 rounded-[28px] border border-[rgba(255,255,255,0.20)] bg-[rgba(255,255,255,0.07)] p-2 backdrop-blur-[10px] [box-shadow:inset_0_1px_0_rgba(255,255,255,0.16)] sm:flex-row sm:items-center">
               <input
                 type="email"
