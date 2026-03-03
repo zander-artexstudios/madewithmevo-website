@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
-import { buildEpisodeMemoryContext, continuityPromptBlock } from '@/lib/mevo/memory';
 import { requireUserId } from '@/lib/mevo/auth';
+import { buildGeneratedEpisodePayload } from '@/lib/mevo/pipeline';
 
 export async function POST(req: NextRequest) {
   const auth = requireUserId(req);
@@ -28,34 +28,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'memory_fetch_failed' }, { status: 500 });
   }
 
-  const memoryContext = buildEpisodeMemoryContext({
+  const { script, shotlist } = buildGeneratedEpisodePayload({
     canon: (canonRes.data || []).map((r) => r.content),
     recentEpisodes: (recentRes.data || []).map((r) => r.content),
     openThreads: (threadRes.data || []).map((r) => r.content)
   });
-
-  const continuity = continuityPromptBlock(memoryContext);
-
-  // Stub pipeline output for next worker step.
-  const script = {
-    version: 1,
-    title: 'Weekly Episode Draft',
-    beats: [
-      'Cold open with relationship callback',
-      'Unexpected turn tied to open thread',
-      'Emotional payoff + teaser for next week'
-    ],
-    continuity
-  };
-
-  const shotlist = {
-    version: 1,
-    shots: [
-      { id: 's1', framing: 'wide', motion: 'slow push-in' },
-      { id: 's2', framing: 'medium', motion: 'orbit slight' },
-      { id: 's3', framing: 'close', motion: 'static emotional beat' }
-    ]
-  };
 
   const { error: updateError } = await supabase
     .from('episodes')

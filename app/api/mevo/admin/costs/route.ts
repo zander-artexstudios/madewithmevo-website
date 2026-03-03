@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase';
 
 export async function GET(req: NextRequest) {
+  const isAuthed = cookies().get('mevo_admin')?.value === '1';
+  if (!isAuthed) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 });
   const days = Number(req.nextUrl.searchParams.get('days') || 30);
   const from = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
 
