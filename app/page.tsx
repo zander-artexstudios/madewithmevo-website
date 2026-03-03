@@ -63,7 +63,7 @@ export default function HomePage() {
             width={560}
             height={190}
             priority
-            className="h-auto w-[clamp(128px,36vw,190px)] sm:w-[clamp(250px,50vw,560px)]"
+            className="h-auto w-[clamp(170px,46vw,250px)] sm:w-[clamp(290px,54vw,620px)]"
             style={{ filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.12))' }}
           />
 
@@ -91,20 +91,20 @@ export default function HomePage() {
             Private AI-generated episodes for your group.
           </p>
 
-          <form onSubmit={onSubmit} className="mt-1 w-full max-w-[220px] sm:max-w-[460px]">
-            <div className="flex flex-col gap-2 rounded-[28px] border border-[rgba(255,255,255,0.20)] bg-[rgba(255,255,255,0.07)] p-2 backdrop-blur-[10px] [box-shadow:inset_0_1px_0_rgba(255,255,255,0.16)] sm:flex-row sm:items-center">
+          <form onSubmit={onSubmit} className="mt-1 w-full max-w-[180px] sm:max-w-[360px]">
+            <div className="flex flex-col gap-1 rounded-[22px] border border-[rgba(255,255,255,0.16)] bg-[rgba(255,255,255,0.06)] p-1.5 backdrop-blur-[8px] [box-shadow:inset_0_1px_0_rgba(255,255,255,0.12)] sm:flex-row sm:items-center">
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
-                className="h-[42px] flex-1 rounded-[20px] border border-transparent bg-[rgba(17,17,17,0.86)] px-4 text-[14px] text-white outline-none placeholder:text-[#c9c9ce] sm:h-[48px] sm:text-[15px]"
+                className="h-[32px] flex-1 rounded-[16px] border border-transparent bg-[rgba(16,16,18,0.86)] px-3 text-[12px] text-white outline-none placeholder:text-[#c9c9ce] sm:h-[38px] sm:px-3.5 sm:text-[13px]"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="h-[42px] rounded-[20px] bg-[#f4f4f6] px-5 text-[14px] font-medium text-black transition duration-200 hover:bg-[#e9e9ed] disabled:opacity-70 sm:h-[48px]"
+                className="h-[32px] rounded-[16px] bg-[#f6f7fb] px-3 text-[12px] font-medium text-black transition duration-200 hover:bg-[#e8eaf2] disabled:opacity-70 sm:h-[38px] sm:px-3.5 sm:text-[13px]"
               >
                 Join
               </button>
