@@ -100,6 +100,10 @@ The app now includes starter APIs for Mevo world/credit/orchestration flows:
 These endpoints use Supabase tables from your Mevo schema (`worlds`, `episodes`, `credit_ledgers`, `world_memory`).
 They are designed as a clean MVP scaffold for the persistent world engine.
 
-### Temporary auth for Mevo APIs
-For now, pass `x-mevo-user-id: <uuid-or-user-key>` header.
-Next step: replace with real session auth.
+### Auth for Mevo APIs
+Mevo APIs now require `Authorization: Bearer <supabase_access_token>`.
+For local development only, you can set `MEVO_DEV_USER_ID` to bypass token auth.
+
+### Scheduler security
+`POST /api/mevo/episodes/run-due` now requires `x-mevo-scheduler-key`.
+Set `MEVO_SCHEDULER_KEY` and pass the same value from your cron/scheduler.
