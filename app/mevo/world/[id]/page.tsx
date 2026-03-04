@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { mevoFetch } from '@/lib/mevo/client-auth';
 
 type Episode = {
   id: string;
@@ -22,8 +23,12 @@ export default function WorldPage() {
 
   async function load() {
     if (!worldId) return;
-    const res = await fetch(`/api/mevo/worlds/${worldId}/episodes?limit=20`, { cache: 'no-store' });
+    const res = await mevoFetch(`/api/mevo/worlds/${worldId}/episodes?limit=20`, { cache: 'no-store' });
     const json = await res.json();
+    if (!json?.ok) {
+      setMsg(json?.error || 'Could not load episodes');
+      return;
+    }
     setEpisodes(json?.episodes || []);
   }
 
@@ -32,10 +37,9 @@ export default function WorldPage() {
     setRunning(true);
     setMsg('');
     try {
-      const q = await fetch('/api/mevo/episodes/queue', {
+      const q = await mevoFetch('/api/mevo/episodes/queue', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: 'demo', worldId, plan: 'free' })
+        body: JSON.stringify({ worldId, plan: 'free' })
       });
       const qj = await q.json();
       if (!qj?.ok) {
@@ -43,15 +47,13 @@ export default function WorldPage() {
         return;
       }
 
-      await fetch('/api/mevo/episodes/generate', {
+      await mevoFetch('/api/mevo/episodes/generate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-mevo-user-id': 'demo' },
         body: JSON.stringify({ worldId, episodeId: qj.episode.id })
       });
 
-      await fetch('/api/mevo/episodes/publish', {
+      await mevoFetch('/api/mevo/episodes/publish', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ episodeId: qj.episode.id })
       });
 
@@ -72,8 +74,7 @@ export default function WorldPage() {
     <main className="min-h-screen bg-black px-6 py-10 text-white">
       <div className="mx-auto max-w-4xl">
         <Link href="/mevo" className="text-sm text-white/70 hover:text-white">← Back</Link>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight">World</h1>
-        <p className="mt-1 text-sm text-white/70">{worldId}</p>
+        <h1 className="mt-3 text-3xl font-semibold tracking-tight">Episodes</h1>
 
         <button
           onClick={queueEpisode}
