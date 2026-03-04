@@ -2,16 +2,18 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { mevoFetch, getStoredMevoToken, setStoredMevoToken } from '@/lib/mevo/client-auth';
+import { useRouter } from 'next/navigation';
+import { getMevoSession, getMevoSupabaseClient, mevoFetch } from '@/lib/mevo/client-auth';
 
 type World = { id: string; name: string; tone: string; created_at: string };
 
 export default function MevoHomePage() {
+  const router = useRouter();
   const [worlds, setWorlds] = useState<World[]>([]);
   const [name, setName] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [msg, setMsg] = useState('');
-  const [token, setToken] = useState('');
+  const [ready, setReady] = useState(false);
 
   const hasWorlds = useMemo(() => worlds.length > 0, [worlds.length]);
 
@@ -19,8 +21,12 @@ export default function MevoHomePage() {
     const res = await mevoFetch('/api/mevo/worlds', { cache: 'no-store' });
     const json = await res.json();
     if (!json?.ok) {
+      if (json?.error === 'unauthorized') {
+        router.replace('/mevo/sign-in');
+        return;
+      }
       setWorlds([]);
-      setMsg(json?.error === 'unauthorized' ? 'Sign in to load your episodes.' : 'Failed to load worlds');
+      setMsg('Failed to load worlds');
       return;
     }
     setWorlds(json?.worlds || []);
@@ -49,37 +55,32 @@ export default function MevoHomePage() {
   }
 
   useEffect(() => {
-    const saved = getStoredMevoToken();
-    setToken(saved);
-    load().catch(() => setMsg('Failed to load worlds'));
-  }, []);
+    getMevoSession()
+      .then((session) => {
+        if (!session) {
+          router.replace('/mevo/sign-in');
+          return;
+        }
+
+        const supabase = getMevoSupabaseClient();
+        const { data: listener } = supabase.auth.onAuthStateChange((event) => {
+          if (event === 'SIGNED_OUT') router.replace('/mevo/sign-in');
+        });
+
+        setReady(true);
+        load().catch(() => setMsg('Failed to load worlds'));
+        return () => listener.subscription.unsubscribe();
+      })
+      .catch(() => router.replace('/mevo/sign-in'));
+  }, [router]);
+
+  if (!ready) return null;
 
   return (
     <main className="min-h-screen bg-black px-6 py-10 text-white">
       <div className="mx-auto max-w-4xl">
         <h1 className="text-3xl font-semibold tracking-tight">Mevo</h1>
         <p className="mt-2 text-white/70">Sign in → set your group once → return straight to episodes.</p>
-
-        <div className="mt-4 rounded-xl border border-white/10 bg-white/5 p-3">
-          <p className="mb-2 text-xs uppercase tracking-[0.2em] text-white/50">Auth token</p>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <input
-              value={token}
-              onChange={(e) => setToken(e.target.value)}
-              placeholder="Paste Supabase access token"
-              className="h-11 flex-1 rounded-lg border border-white/15 bg-black/50 px-3 outline-none"
-            />
-            <button
-              onClick={() => {
-                setStoredMevoToken(token.trim());
-                load().catch(() => setMsg('Reload failed'));
-              }}
-              className="h-11 rounded-lg bg-white px-4 text-sm font-semibold text-black"
-            >
-              Save sign-in
-            </button>
-          </div>
-        </div>
 
         {!hasWorlds ? (
           <section className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
