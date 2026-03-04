@@ -1,8 +1,11 @@
 import { buildEpisodeMemoryContext, continuityPromptBlock } from '@/lib/mevo/memory';
 import { generateNarrative, generateShotlist } from '@/lib/mevo/providers';
+import { enforceMotionBudget, resolveStylePreset } from '@/lib/mevo/style';
 
 export async function buildGeneratedEpisodePayload(input: {
   worldId: string;
+  stylePreset?: string | null;
+  tone?: string | null;
   canon: unknown[];
   recentEpisodes: unknown[];
   openThreads: unknown[];
@@ -13,24 +16,32 @@ export async function buildGeneratedEpisodePayload(input: {
     openThreads: input.openThreads
   });
 
+  const style = resolveStylePreset(input.stylePreset || undefined);
   const continuity = continuityPromptBlock(memoryContext);
 
   const [narrative, shots] = await Promise.all([
-    generateNarrative({ worldId: input.worldId, memoryContext: continuity }),
-    generateShotlist({ worldId: input.worldId, memoryContext: continuity })
+    generateNarrative({ worldId: input.worldId, memoryContext: continuity, stylePreset: style, tone: input.tone }),
+    generateShotlist({ worldId: input.worldId, memoryContext: continuity, stylePreset: style, tone: input.tone })
   ]);
 
+  const motion = enforceMotionBudget(shots.shots, style.motionBudget.maxMotionShots);
+
   const script = {
-    version: 2,
+    version: 3,
     title: narrative.title,
     beats: narrative.beats,
     continuity,
+    styleAnchor: style,
     provider: narrative.provider
   };
 
   const shotlist = {
-    version: 2,
-    shots: shots.shots,
+    version: 3,
+    shots: motion.shots,
+    motionPolicy: {
+      movingShots: motion.movingShots,
+      maxMotionShots: motion.maxMotionShots
+    },
     provider: shots.provider
   };
 

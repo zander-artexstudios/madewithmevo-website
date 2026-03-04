@@ -1,56 +1,60 @@
+import { DEFAULT_STYLE_PRESET, type StylePreset } from '@/lib/mevo/style';
+
 type EpisodeInput = {
   worldId: string;
   memoryContext: unknown;
+  stylePreset: StylePreset;
+  tone?: string | null;
 };
 
-export async function generateNarrative(input: EpisodeInput) {
-  const mode = (process.env.MEVO_PROVIDER_MODE || 'mock').toLowerCase();
+type ProviderAdapter = {
+  id: string;
+  generateNarrative: (input: EpisodeInput) => Promise<{ title: string; beats: string[]; provider: string }>;
+  generateShotlist: (input: EpisodeInput) => Promise<{ shots: Array<{ id: string; framing: string; motion: string }>; provider: string }>;
+};
 
-  if (mode === 'mock') {
+const mockAdapter: ProviderAdapter = {
+  id: 'mock',
+  async generateNarrative(input) {
     return {
       title: 'Weekly Episode Draft',
       beats: [
-        'Cold open with relationship callback',
-        'Unexpected turn tied to open thread',
+        `Cold open in ${input.tone || 'cinematic-warm'} tone with relationship callback`,
+        `Unexpected turn tied to open thread and ${input.stylePreset.visualAnchor}`,
         'Emotional payoff + teaser for next week'
       ],
       provider: 'mock'
     };
-  }
-
-  // Placeholder for real provider integrations.
-  // e.g. OpenAI Responses / Anthropic / custom endpoint.
-  return {
-    title: 'Weekly Episode Draft',
-    beats: [
-      'Cold open with relationship callback',
-      'Unexpected turn tied to open thread',
-      'Emotional payoff + teaser for next week'
-    ],
-    provider: mode
-  };
-}
-
-export async function generateShotlist(input: EpisodeInput) {
-  const mode = (process.env.MEVO_PROVIDER_MODE || 'mock').toLowerCase();
-
-  if (mode === 'mock') {
+  },
+  async generateShotlist(input) {
     return {
       shots: [
-        { id: 's1', framing: 'wide', motion: 'slow push-in' },
-        { id: 's2', framing: 'medium', motion: 'orbit slight' },
+        { id: 's1', framing: 'wide', motion: input.stylePreset.motionBudget.preferredMotion[0] || 'slow push-in' },
+        { id: 's2', framing: 'medium', motion: input.stylePreset.motionBudget.preferredMotion[1] || 'gentle parallax' },
         { id: 's3', framing: 'close', motion: 'static emotional beat' }
       ],
       provider: 'mock'
     };
   }
+};
 
-  return {
-    shots: [
-      { id: 's1', framing: 'wide', motion: 'slow push-in' },
-      { id: 's2', framing: 'medium', motion: 'orbit slight' },
-      { id: 's3', framing: 'close', motion: 'static emotional beat' }
-    ],
-    provider: mode
-  };
+const adapters: Record<string, ProviderAdapter> = {
+  mock: mockAdapter,
+  openai: mockAdapter,
+  anthropic: mockAdapter
+};
+
+function resolveAdapter() {
+  const mode = (process.env.MEVO_PROVIDER_MODE || 'mock').toLowerCase();
+  return adapters[mode] || mockAdapter;
+}
+
+export async function generateNarrative(input: Omit<EpisodeInput, 'stylePreset'> & { stylePreset?: StylePreset }) {
+  const adapter = resolveAdapter();
+  return adapter.generateNarrative({ ...input, stylePreset: input.stylePreset || DEFAULT_STYLE_PRESET });
+}
+
+export async function generateShotlist(input: Omit<EpisodeInput, 'stylePreset'> & { stylePreset?: StylePreset }) {
+  const adapter = resolveAdapter();
+  return adapter.generateShotlist({ ...input, stylePreset: input.stylePreset || DEFAULT_STYLE_PRESET });
 }
