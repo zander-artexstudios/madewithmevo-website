@@ -4,11 +4,21 @@ export type StylePreset = {
   palette: string;
   camera: string;
   characterRules: string[];
+  descriptorTokens: {
+    lighting: string;
+    camera: string;
+  };
   motionBudget: {
     maxMotionShots: number;
     preferredMotion: string[];
   };
 };
+
+function resolveMotionCap() {
+  const raw = Number(process.env.MEVO_MAX_MOTION_SHOTS || 2);
+  if (!Number.isFinite(raw)) return 2;
+  return Math.max(0, Math.min(6, Math.floor(raw)));
+}
 
 export const DEFAULT_STYLE_PRESET: StylePreset = {
   id: 'MEVO_WORLD_V1',
@@ -16,8 +26,12 @@ export const DEFAULT_STYLE_PRESET: StylePreset = {
   palette: 'Deep blue shadows, warm skin mids, silver highlights',
   camera: 'Social vertical framing, clean horizon, emotional close-ups',
   characterRules: ['Keep cast identity stable across episodes', 'No drastic face/style drift', 'Wardrobe continuity unless explicitly changed'],
+  descriptorTokens: {
+    lighting: 'golden-hour soft contrast, skin-safe highlights, cinematic bloom restraint',
+    camera: '35mm-equivalent vertical composition, horizon disciplined, emotionally anchored close-ups'
+  },
   motionBudget: {
-    maxMotionShots: Number(process.env.MEVO_MAX_MOTION_SHOTS || 2),
+    maxMotionShots: resolveMotionCap(),
     preferredMotion: ['slow push-in', 'gentle parallax', 'subtle dolly']
   }
 };
@@ -53,4 +67,14 @@ export function enforceMotionBudget(
     maxMotionShots,
     capped: moving >= maxMotionShots
   };
+}
+
+export function enforceStyleDescriptors(
+  shots: Array<{ id: string; framing: string; motion: string }>,
+  style: StylePreset
+) {
+  return shots.map((shot) => ({
+    ...shot,
+    framing: `${shot.framing} | lighting: ${style.descriptorTokens.lighting} | camera: ${style.descriptorTokens.camera}`
+  }));
 }

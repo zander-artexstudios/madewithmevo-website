@@ -29,9 +29,9 @@ const mockAdapter: ProviderAdapter = {
   async generateShotlist(input) {
     return {
       shots: [
-        { id: 's1', framing: 'wide', motion: input.stylePreset.motionBudget.preferredMotion[0] || 'slow push-in' },
-        { id: 's2', framing: 'medium', motion: input.stylePreset.motionBudget.preferredMotion[1] || 'gentle parallax' },
-        { id: 's3', framing: 'close', motion: 'static emotional beat' }
+        { id: 's1', framing: `wide, ${input.stylePreset.descriptorTokens.lighting}`, motion: input.stylePreset.motionBudget.preferredMotion[0] || 'slow push-in' },
+        { id: 's2', framing: `medium, ${input.stylePreset.descriptorTokens.camera}`, motion: input.stylePreset.motionBudget.preferredMotion[1] || 'gentle parallax' },
+        { id: 's3', framing: 'close, emotional beat', motion: 'static emotional beat' }
       ],
       provider: 'mock'
     };

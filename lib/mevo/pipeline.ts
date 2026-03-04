@@ -1,6 +1,6 @@
 import { buildEpisodeMemoryContext, continuityPromptBlock } from '@/lib/mevo/memory';
 import { generateNarrative, generateShotlist } from '@/lib/mevo/providers';
-import { enforceMotionBudget, resolveStylePreset } from '@/lib/mevo/style';
+import { enforceMotionBudget, enforceStyleDescriptors, resolveStylePreset } from '@/lib/mevo/style';
 
 export async function buildGeneratedEpisodePayload(input: {
   worldId: string;
@@ -25,6 +25,7 @@ export async function buildGeneratedEpisodePayload(input: {
   ]);
 
   const motion = enforceMotionBudget(shots.shots, style.motionBudget.maxMotionShots);
+  const styledShots = enforceStyleDescriptors(motion.shots, style);
 
   const script = {
     version: 3,
@@ -32,12 +33,13 @@ export async function buildGeneratedEpisodePayload(input: {
     beats: narrative.beats,
     continuity,
     styleAnchor: style,
+    styleDescriptors: style.descriptorTokens,
     provider: narrative.provider
   };
 
   const shotlist = {
     version: 3,
-    shots: motion.shots,
+    shots: styledShots,
     motionPolicy: {
       movingShots: motion.movingShots,
       maxMotionShots: motion.maxMotionShots
