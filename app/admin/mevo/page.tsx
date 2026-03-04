@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 type CostResponse = {
   ok: boolean;
   totals?: { debitCredits: number; creditCredits: number; netCredits: number };
+  analytics?: Record<string, number>;
   rows?: Array<{ user_id: string; world_id: string | null; direction: string; amount: number; reason: string; created_at: string }>;
 };
 
@@ -71,6 +72,14 @@ export default function MevoAdminPage() {
           <Card label="Debits (30d)" value={String(data?.totals?.debitCredits ?? 0)} />
           <Card label="Credits (30d)" value={String(data?.totals?.creditCredits ?? 0)} />
           <Card label="Net (30d)" value={String(data?.totals?.netCredits ?? 0)} />
+        </div>
+
+        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
+          <Card label="Views started" value={String(data?.analytics?.episode_view_started ?? 0)} />
+          <Card label="Views completed" value={String(data?.analytics?.episode_view_completed ?? 0)} />
+          <Card label="Shares" value={String(data?.analytics?.share_clicked ?? 0)} />
+          <Card label="Generated" value={String(data?.analytics?.episode_generated ?? 0)} />
+          <Card label="Cost events" value={String(data?.analytics?.generation_cost_estimate ?? 0)} />
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-white/10">

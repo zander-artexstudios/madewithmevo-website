@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { requireUserId } from '@/lib/mevo/auth';
 import { buildGeneratedEpisodePayload } from '@/lib/mevo/pipeline';
+import { logMevoEvent } from '@/lib/mevo/analytics';
+import { EPISODE_BASE_COST } from '@/lib/mevo/credits';
 
 export async function POST(req: NextRequest) {
   const auth = await requireUserId(req);
@@ -56,7 +58,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: updateError.message }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true, episodeId, worldId, status: 'generated' });
+    const shotCount = Array.isArray((shotlist as any)?.shots) ? (shotlist as any).shots.length : 0;
+    const estimatedCost = EPISODE_BASE_COST + shotCount * 5;
+
+    await logMevoEvent({ event: 'episode_generated', userId: auth.userId, worldId, episodeId, value: shotCount });
+    await logMevoEvent({
+      event: 'generation_cost_estimate',
+      userId: auth.userId,
+      worldId,
+      episodeId,
+      value: estimatedCost,
+      meta: { baseCost: EPISODE_BASE_COST, shotCount }
+    });
+
+    return NextResponse.json({ ok: true, episodeId, worldId, status: 'generated', estimatedCost });
   } catch (err: any) {
     return NextResponse.json({ ok: false, error: err?.message || 'generation_failed' }, { status: 500 });
   }

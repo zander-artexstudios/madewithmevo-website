@@ -22,6 +22,17 @@ export async function GET(req: NextRequest) {
   const totalDebits = rows.filter((r) => r.direction === 'debit').reduce((a, r) => a + r.amount, 0);
   const totalCredits = rows.filter((r) => r.direction === 'credit').reduce((a, r) => a + r.amount, 0);
 
+  const { data: analyticsRows } = await supabase
+    .from('mevo_analytics')
+    .select('event_name,created_at')
+    .gte('created_at', from)
+    .limit(5000);
+
+  const analytics = (analyticsRows || []).reduce<Record<string, number>>((acc, row: any) => {
+    acc[row.event_name] = (acc[row.event_name] || 0) + 1;
+    return acc;
+  }, {});
+
   return NextResponse.json({
     ok: true,
     windowDays: days,
@@ -30,6 +41,7 @@ export async function GET(req: NextRequest) {
       creditCredits: totalCredits,
       netCredits: totalDebits - totalCredits
     },
+    analytics,
     rows
   });
 }

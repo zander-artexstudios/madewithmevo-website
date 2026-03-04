@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 
 type EpisodePayload = {
@@ -21,6 +21,7 @@ export default function EpisodeViewPage() {
   const episodeId = params?.id;
   const [data, setData] = useState<EpisodePayload | null>(null);
   const [msg, setMsg] = useState('');
+  const completionTracked = useRef(false);
 
   useEffect(() => {
     if (!episodeId) return;
@@ -32,8 +33,27 @@ export default function EpisodeViewPage() {
           return;
         }
         setData(json);
+        fetch('/api/mevo/analytics', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ event: 'episode_view_started', episodeId })
+        }).catch(() => null);
       })
       .catch(() => setMsg('Failed to load episode.'));
+  }, [episodeId]);
+
+  useEffect(() => {
+    if (!episodeId || completionTracked.current) return;
+    const timer = setTimeout(() => {
+      completionTracked.current = true;
+      fetch('/api/mevo/analytics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event: 'episode_view_completed', episodeId, meta: { completionType: 'timer_8s' } })
+      }).catch(() => null);
+    }, 8_000);
+
+    return () => clearTimeout(timer);
   }, [episodeId]);
 
   const shareUrl = useMemo(() => {
@@ -73,12 +93,26 @@ export default function EpisodeViewPage() {
             href={`https://wa.me/?text=${encodeURIComponent(`Watch our new Mevo episode: ${shareUrl}`)}`}
             target="_blank"
             rel="noreferrer"
+            onClick={() => {
+              fetch('/api/mevo/analytics', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event: 'share_clicked', episodeId, meta: { channel: 'whatsapp' } })
+              }).catch(() => null);
+            }}
             className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-black"
           >
             Share to WhatsApp
           </a>
           <button
-            onClick={() => navigator.clipboard.writeText(shareUrl)}
+            onClick={() => {
+              navigator.clipboard.writeText(shareUrl);
+              fetch('/api/mevo/analytics', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event: 'share_clicked', episodeId, meta: { channel: 'copy_link' } })
+              }).catch(() => null);
+            }}
             className="rounded-full border border-white/30 px-4 py-2 text-sm font-semibold"
           >
             Copy link

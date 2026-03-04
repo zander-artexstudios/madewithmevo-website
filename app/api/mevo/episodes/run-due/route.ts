@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { buildGeneratedEpisodePayload } from '@/lib/mevo/pipeline';
 import { requireSchedulerKey } from '@/lib/mevo/auth';
+import { logMevoEvent } from '@/lib/mevo/analytics';
+import { EPISODE_BASE_COST } from '@/lib/mevo/credits';
 
 const MAX_RETRIES = Number(process.env.MEVO_MAX_RETRIES || 2);
 const BASE_BACKOFF_MS = Number(process.env.MEVO_RETRY_BACKOFF_MS || 60_000);
@@ -79,7 +81,7 @@ export async function POST(req: NextRequest) {
 
     const { data: world } = await supabase
       .from('worlds')
-      .select('id,tone,style_preset')
+      .select('id,user_id,tone,style_preset')
       .eq('id', ep.world_id)
       .single();
 
@@ -151,6 +153,25 @@ export async function POST(req: NextRequest) {
 
         results.push({ episodeId: ep.id, status: 'failed', error: updateErr.message, retryCount: bumped });
       } else {
+        const shotCount = Array.isArray((shotlist as any)?.shots) ? (shotlist as any).shots.length : 0;
+        const estimatedCost = EPISODE_BASE_COST + shotCount * 5;
+
+        await logMevoEvent({
+          event: 'episode_generated',
+          userId: (world as any)?.user_id || null,
+          worldId: ep.world_id,
+          episodeId: ep.id,
+          value: shotCount
+        });
+        await logMevoEvent({
+          event: 'generation_cost_estimate',
+          userId: (world as any)?.user_id || null,
+          worldId: ep.world_id,
+          episodeId: ep.id,
+          value: estimatedCost,
+          meta: { baseCost: EPISODE_BASE_COST, shotCount }
+        });
+
         results.push({ episodeId: ep.id, status: 'generated', retryCount });
       }
     } catch (err: any) {
