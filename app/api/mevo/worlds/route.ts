@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { requireUserId } from '@/lib/mevo/auth';
+import { ensureDemoContent } from '@/lib/mevo/demo';
 
 export async function GET(req: NextRequest) {
   const auth = await requireUserId(req);
   if (auth.error) return NextResponse.json({ ok: false, error: auth.error }, { status: auth.status || 401 });
 
   const supabase = getSupabaseAdmin();
+  await ensureDemoContent(supabase, auth.userId!);
+
   const { data, error } = await supabase
     .from('worlds')
     .select('id,name,tone,style_preset,created_at')
