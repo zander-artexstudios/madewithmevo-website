@@ -20,6 +20,7 @@ export default function WorldPage() {
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [msg, setMsg] = useState('');
   const [running, setRunning] = useState(false);
+  const [inviteUrl, setInviteUrl] = useState('');
 
   async function load() {
     if (!worldId) return;
@@ -30,6 +31,21 @@ export default function WorldPage() {
       return;
     }
     setEpisodes(json?.episodes || []);
+  }
+
+  async function createInvite() {
+    if (!worldId) return;
+    setMsg('');
+    const res = await mevoFetch(`/api/mevo/worlds/${worldId}/invite`, { method: 'POST' });
+    const json = await res.json();
+    if (!json?.ok || !json?.inviteUrl) {
+      setMsg(json?.error || 'Could not create invite link');
+      return;
+    }
+
+    setInviteUrl(json.inviteUrl);
+    navigator.clipboard.writeText(json.inviteUrl).catch(() => null);
+    setMsg('Invite link copied. Friends get view-only world access.');
   }
 
   async function queueEpisode() {
@@ -76,14 +92,23 @@ export default function WorldPage() {
         <Link href="/mevo" className="text-sm text-white/70 hover:text-white">← Back</Link>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight">Episodes</h1>
 
-        <button
-          onClick={queueEpisode}
-          disabled={running}
-          className="mt-6 rounded-full bg-white px-5 py-2 text-sm font-semibold text-black disabled:opacity-60"
-        >
-          {running ? 'Running…' : 'Generate weekly episode'}
-        </button>
+        <div className="mt-6 flex flex-wrap gap-2">
+          <button
+            onClick={queueEpisode}
+            disabled={running}
+            className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black disabled:opacity-60"
+          >
+            {running ? 'Running…' : 'Generate weekly episode'}
+          </button>
+          <button
+            onClick={createInvite}
+            className="rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white"
+          >
+            Create invite link
+          </button>
+        </div>
         <p className="mt-2 text-sm text-white/80">{msg}</p>
+        {!!inviteUrl && <p className="mt-1 text-xs text-white/60 break-all">{inviteUrl}</p>}
 
         <div className="mt-8 grid gap-3">
           {episodes.map((e) => (
