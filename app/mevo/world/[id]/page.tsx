@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { mevoFetch } from '@/lib/mevo/client-auth';
 
@@ -16,6 +16,7 @@ type Episode = {
 
 export default function WorldPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
   const worldId = params?.id;
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [msg, setMsg] = useState('');
@@ -27,6 +28,10 @@ export default function WorldPage() {
     const res = await mevoFetch(`/api/mevo/worlds/${worldId}/episodes?limit=20`, { cache: 'no-store' });
     const json = await res.json();
     if (!json?.ok) {
+      if (json?.error === 'unauthorized') {
+        router.replace('/mevo/sign-in');
+        return;
+      }
       setMsg(json?.error || 'Could not load episodes');
       return;
     }
@@ -63,15 +68,25 @@ export default function WorldPage() {
         return;
       }
 
-      await mevoFetch('/api/mevo/episodes/generate', {
+      const generateRes = await mevoFetch('/api/mevo/episodes/generate', {
         method: 'POST',
         body: JSON.stringify({ worldId, episodeId: qj.episode.id })
       });
+      const generateJson = await generateRes.json();
+      if (!generateJson?.ok) {
+        setMsg(generateJson?.error || 'Generation failed. Please retry.');
+        return;
+      }
 
-      await mevoFetch('/api/mevo/episodes/publish', {
+      const publishRes = await mevoFetch('/api/mevo/episodes/publish', {
         method: 'POST',
         body: JSON.stringify({ episodeId: qj.episode.id })
       });
+      const publishJson = await publishRes.json();
+      if (!publishJson?.ok) {
+        setMsg(publishJson?.error || 'Publish failed. Episode is saved but not live yet.');
+        return;
+      }
 
       setMsg('New episode generated and published.');
       await load();

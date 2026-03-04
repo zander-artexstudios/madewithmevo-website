@@ -20,7 +20,8 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (error || !world) return NextResponse.json({ ok: false, error: 'world_not_found' }, { status: 404 });
 
   const token = createInviteToken(world.id, auth.userId!);
-  const inviteUrl = `${req.nextUrl.origin}/mevo/invite/${token}`;
+  const baseUrl = process.env.MEVO_APP_BASE_URL?.trim() || req.nextUrl.origin;
+  const inviteUrl = `${baseUrl}/mevo/invite/${token}`;
 
   return NextResponse.json({ ok: true, inviteUrl, mode: 'view' });
 }
