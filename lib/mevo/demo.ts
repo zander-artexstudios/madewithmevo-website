@@ -78,7 +78,11 @@ function buildDemoEpisodes(worldId: string) {
   }));
 }
 
-export async function ensureDemoContent(supabase: SupabaseClient, userId: string) {
+export async function ensureDemoContent(
+  supabase: SupabaseClient,
+  userId: string,
+  options?: { forceCreateWorld?: boolean }
+) {
   const { data: existingWorlds, error: worldsError } = await supabase
     .from('worlds')
     .select('id,name')
@@ -88,7 +92,7 @@ export async function ensureDemoContent(supabase: SupabaseClient, userId: string
   if (worldsError) throw worldsError;
 
   let demoWorld = (existingWorlds || []).find((w) => w.name === DEMO_WORLD_NAME);
-  if (!demoWorld && (existingWorlds || []).length === 0) {
+  if (!demoWorld && ((existingWorlds || []).length === 0 || options?.forceCreateWorld)) {
     const { data, error } = await supabase
       .from('worlds')
       .insert({

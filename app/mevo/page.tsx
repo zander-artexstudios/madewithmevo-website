@@ -79,8 +79,15 @@ export default function MevoHomePage() {
   return (
     <main className="min-h-screen bg-black px-6 py-10 text-white">
       <div className="mx-auto max-w-4xl">
-        <h1 className="text-3xl font-semibold tracking-tight">Mevo</h1>
-        <p className="mt-2 text-white/70">Sign in → set your group once → return straight to episodes.</p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight">Mevo</h1>
+            <p className="mt-2 text-white/70">Sign in → set your group once → return straight to episodes.</p>
+          </div>
+          <Link href="/mevo/demo" className="rounded-full border border-white/30 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10">
+            Founder Demo Mode
+          </Link>
+        </div>
 
         {!hasWorlds ? (
           <section className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
