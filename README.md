@@ -79,8 +79,23 @@ In Vercel Project Settings → Environment Variables, add:
 
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
+- `NEXT_PUBLIC_SUPABASE_URL` ✅ required for client auth
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` ✅ required for client auth
 - `ADMIN_PASSWORD`
 - `MEVO_EPISODE_BASE_COST` (optional, default 100)
+
+Startup hardening: the app now fails fast on boot (production) or loudly warns (dev) if `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` are missing.
+
+Quick set path (Vercel CLI):
+
+```bash
+# add/update required public Supabase vars
+overcel env add NEXT_PUBLIC_SUPABASE_URL production
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY production
+
+# pull remote env into local .env.local for validation
+overcel env pull .env.local
+```
 
 Redeploy after adding env vars.
 
