@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { requireUserId } from '@/lib/mevo/auth';
+import { sendEpisodePublishedEmailStub } from '@/lib/mevo/notifications';
 
 export async function POST(req: NextRequest) {
   const auth = await requireUserId(req);
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
   const supabase = getSupabaseAdmin();
   const { data: ep, error: epErr } = await supabase
     .from('episodes')
-    .select('id,world_id,status,worlds!inner(user_id)')
+    .select('id,world_id,status,title,summary,worlds!inner(user_id)')
     .eq('id', episodeId)
     .single();
 
@@ -31,5 +32,22 @@ export async function POST(req: NextRequest) {
     .eq('id', (ep as any).id);
 
   if (updateErr) return NextResponse.json({ ok: false, error: updateErr.message }, { status: 500 });
-  return NextResponse.json({ ok: true, episodeId: (ep as any).id, shareUrl });
+
+  let recipientEmail: string | undefined;
+  try {
+    const { data: userData } = await supabase.auth.admin.getUserById(auth.userId!);
+    recipientEmail = userData?.user?.email;
+  } catch {
+    recipientEmail = undefined;
+  }
+
+  const notification = await sendEpisodePublishedEmailStub({
+    to: recipientEmail,
+    episodeId: (ep as any).id,
+    title: (ep as any).title,
+    summary: (ep as any).summary,
+    shareUrl
+  });
+
+  return NextResponse.json({ ok: true, episodeId: (ep as any).id, shareUrl, notification });
 }

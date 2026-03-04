@@ -83,6 +83,8 @@ In Vercel Project Settings → Environment Variables, add:
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` ✅ required for client auth
 - `ADMIN_PASSWORD`
 - `MEVO_EPISODE_BASE_COST` (optional, default 100)
+- `MEVO_INVITE_SECRET` (required in production for invite-link signing)
+- `MEVO_NOTIFICATION_STUB_EMAIL_TO` (optional fallback recipient for alpha email stub)
 
 Startup hardening: the app now fails fast on boot (production) or loudly warns (dev) if `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` are missing.
 
