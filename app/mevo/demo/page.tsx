@@ -17,13 +17,17 @@ export default function MevoDemoLaunchPage() {
             router.replace('/mevo/sign-in');
             return;
           }
-          setMsg('Demo launch failed. Please try again from /mevo after sign in.');
+          if (json?.error === 'auth_unavailable') {
+            setMsg('Session check is temporarily unavailable. Please retry in a few seconds.');
+            return;
+          }
+          setMsg(json?.message || 'Demo launch failed. Please retry from /mevo.');
           return;
         }
 
         router.replace(json.route);
       })
-      .catch(() => setMsg('Demo launch failed. Please retry.'));
+      .catch(() => setMsg('Demo launch failed due to a network hiccup. Please retry.'));
   }, [router]);
 
   return (

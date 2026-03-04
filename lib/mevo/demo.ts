@@ -110,14 +110,40 @@ export async function ensureDemoContent(
 
   if (!demoWorld) return;
 
-  const { count, error: episodeCountError } = await supabase
+  const demoEpisodes = buildDemoEpisodes(demoWorld.id);
+  const expectedTitles = demoEpisodes.map((e) => e.title);
+
+  const { data: existingEpisodes, error: existingEpisodesError } = await supabase
     .from('episodes')
-    .select('id', { count: 'exact', head: true })
-    .eq('world_id', demoWorld.id);
+    .select('id,title,status,published_at')
+    .eq('world_id', demoWorld.id)
+    .in('title', expectedTitles);
 
-  if (episodeCountError) throw episodeCountError;
-  if ((count || 0) > 0) return;
+  if (existingEpisodesError) throw existingEpisodesError;
 
-  const { error: seedError } = await supabase.from('episodes').insert(buildDemoEpisodes(demoWorld.id));
-  if (seedError) throw seedError;
+  const existingByTitle = new Map((existingEpisodes || []).map((ep) => [ep.title, ep]));
+
+  const missingEpisodes = demoEpisodes.filter((ep) => !existingByTitle.has(ep.title));
+  if (missingEpisodes.length > 0) {
+    const { error: seedError } = await supabase.from('episodes').insert(missingEpisodes);
+    if (seedError) throw seedError;
+  }
+
+  const needsPublishRepair = (existingEpisodes || []).filter(
+    (ep) => ep.status !== 'published' || !ep.published_at
+  );
+
+  for (const ep of needsPublishRepair) {
+    const target = demoEpisodes.find((d) => d.title === ep.title);
+    const { error: repairError } = await supabase
+      .from('episodes')
+      .update({
+        status: 'published',
+        published_at: target?.published_at || new Date().toISOString(),
+        share_url: target?.share_url || `${process.env.MEVO_SHARE_BASE_URL || 'https://madewithmevo.com'}/episode/${ep.id}`
+      })
+      .eq('id', ep.id);
+
+    if (repairError) throw repairError;
+  }
 }
